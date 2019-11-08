@@ -11,25 +11,25 @@
 var app = null
 export default {
   name: 'App',
-  data (){
+  data () {
     return {
-     
+
     }
   },
   methods: {
-   jumpToInlet(){
-      app.$router.push({name:'Inlet'})
-   }
+    jumpToInlet () {
+      app.$router.push({name: 'Inlet'})
+    }
   },
-  created (){
+  created () {
     app = this
   },
   watch: {
-    "$route": function (to, from) {
-      this.nickname = localStorage.getItem("nickname")
-      this.token = localStorage.getItem("token")
-      console.log("watch")
-　　}
+    '$route': function (to, from) {
+      this.nickname = localStorage.getItem('nickname')
+      this.token = localStorage.getItem('token')
+      console.log('watch')
+    }
   }
 }
 </script>

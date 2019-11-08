@@ -4,7 +4,6 @@ import iView from 'iview'
 import ElementUI from 'element-ui'
 import 'iview/dist/styles/iview.css'
 
-
 import Home from '@/components/Home'
 import Inlet from '@/components/Inlet'
 
@@ -12,20 +11,19 @@ Vue.use(Router)
 Vue.use(iView)
 Vue.use(ElementUI)
 
-
 var r = new Router({
   routes: [
     {
       path: '/Home',
       name: 'Home',
       component: Home,
-      children:[ ]
+      children: [ ]
     },
     {
       path: '/',
       name: 'Inlet',
       component: Inlet,
-      children:[ ]
+      children: [ ]
     }
   ]
 })
@@ -38,7 +36,7 @@ r.beforeEach((to, from, next) => {
   //     path:"/Login"
   //   })
   // }
-  next();
+  next()
 })
 
 export default r

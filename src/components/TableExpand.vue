@@ -28,94 +28,94 @@
     </div>
 </template>
 <script>
-    import expandRow from './TableExpand.vue';
-    var app = null
-    export default {
-        props: {
-            row: Object
+import expandRow from './TableExpand.vue'
+var app = null
+export default {
+  props: {
+    row: Object
+  },
+  data () {
+    return {
+      columns: [
+        {
+          type: 'expand',
+          width: 50,
+          render: (h, params) => {
+            return h(expandRow, {
+              props: {
+                row: params.row
+              }
+            })
+          }
         },
-        data(){
-            return {
-                columns: [
-                    {
-                      type: 'expand',
-                      width: 50,
-                      render: (h, params) => {
-                          return h(expandRow, {
-                              props: {
-                                  row: params.row
-                              }
-                          })
-                      }
-                    },
-                    {
-                        title: 'Name',
-                        key: 'name'
-                    },
-                    {
-                        title: 'Type',
-                        key: 'type'
-                    },
-                    {
-                        title: 'Desc',
-                        key: 'desc'
-                    }
-                ],
-                data: []
-            }
+        {
+          title: 'Name',
+          key: 'name'
         },
-        methods: {
-            parserSchemaType(type){
-                var required = type.kind == 'NON_NULL'
-                var isList = type.kind === 'LIST'
-                var typeName = ""
-
-                if(type.ofType && type.ofType.ofType){
-                    typeName =  type.ofType.ofType.name
-                }else if(type.ofType){
-                    typeName = type.ofType.name
-                }else{
-                    typeName = type.name
-                }
-                return (isList ? "[] " : "") + typeName + (required ? " !" : "")
-            }
+        {
+          title: 'Type',
+          key: 'type'
         },
-        created(){
-            app = this
-            var schemaMapJson = localStorage.getItem('schemaMap')
-            if(!schemaMapJson){
-                app.$Message.error("请刷新页面重试")
-            }
-            var schemaMap = JSON.parse(schemaMapJson)
-
-            if (app.row.fields){
-                for (var i = 0; i < app.row.fields.length; i ++){
-                    var field = app.row.fields[i]
-                    var typeName = app.parserSchemaType(field.type)
-
-                    var argType = field.type
-                    var argTypeName = argType.name
-                    if(argType.ofType && argType.ofType.ofType){
-                        argTypeName = argType.ofType.ofType.name
-                    }else if (argType.ofType){
-                        argTypeName = argType.ofType.name
-                    }
-                    var schemaObj = schemaMap[argTypeName]
-
-                    var fields = schemaObj.inputFields
-                    if (! fields || fields.length == 0){
-                        fields = schemaObj.fields
-                    }
-
-                    app.data.push({
-                        name: field.name,
-                        type: typeName,
-                        desc: field.description,
-                        fields: fields,
-                        _disableExpand: ! fields || fields.length == 0,
-                    })
-                }
-            }
+        {
+          title: 'Desc',
+          key: 'desc'
         }
-    };
+      ],
+      data: []
+    }
+  },
+  methods: {
+    parserSchemaType (type) {
+      var required = type.kind == 'NON_NULL'
+      var isList = type.kind === 'LIST'
+      var typeName = ''
+
+      if (type.ofType && type.ofType.ofType) {
+        typeName = type.ofType.ofType.name
+      } else if (type.ofType) {
+        typeName = type.ofType.name
+      } else {
+        typeName = type.name
+      }
+      return (isList ? '[] ' : '') + typeName + (required ? ' !' : '')
+    }
+  },
+  created () {
+    app = this
+    var schemaMapJson = localStorage.getItem('schemaMap')
+    if (!schemaMapJson) {
+      app.$Message.error('请刷新页面重试')
+    }
+    var schemaMap = JSON.parse(schemaMapJson)
+
+    if (app.row.fields) {
+      for (var i = 0; i < app.row.fields.length; i++) {
+        var field = app.row.fields[i]
+        var typeName = app.parserSchemaType(field.type)
+
+        var argType = field.type
+        var argTypeName = argType.name
+        if (argType.ofType && argType.ofType.ofType) {
+          argTypeName = argType.ofType.ofType.name
+        } else if (argType.ofType) {
+          argTypeName = argType.ofType.name
+        }
+        var schemaObj = schemaMap[argTypeName]
+
+        var fields = schemaObj.inputFields
+        if (!fields || fields.length == 0) {
+          fields = schemaObj.fields
+        }
+
+        app.data.push({
+          name: field.name,
+          type: typeName,
+          desc: field.description,
+          fields: fields,
+          _disableExpand: !fields || fields.length == 0
+        })
+      }
+    }
+  }
+}
 </script>
