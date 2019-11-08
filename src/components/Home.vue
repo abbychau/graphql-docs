@@ -53,6 +53,7 @@
 <script>
 import axios from 'axios'
 import expandRow from './TableExpand.vue'
+import playButton from './PlayButton.vue'
 var app = null
 export default {
   components: { expandRow },
@@ -81,15 +82,29 @@ export default {
             },
             {
               title: 'Name',
-              key: 'name'
+              key: 'name',
+              width: 85
             },
             {
               title: 'Type',
-              key: 'type'
+              key: 'type',
+              width: 85
             },
             {
               title: 'Desc',
               key: 'desc'
+            },
+            {
+              title: 'Play',
+              key: 'button',
+              width: 75,
+              render: (h, params) => {
+                return h(playButton, {
+                  props: {
+                    data: params
+                  }
+                })
+              }
             }
           ],
           data: [ ]
@@ -186,18 +201,18 @@ export default {
         .then(function (response) {
           var resp = response.data
           var schemaTypes = resp.data.__schema.types
-          var i = 0
-          for (i = 0; i < schemaTypes.length; i++) {
+
+          for (var i = 0; i < schemaTypes.length; i++) {
             var schemaType = schemaTypes[i]
             app.schemaMap[schemaType.name] = schemaType
           }
           app.queryApis = app.schemaMap['Query'].fields
-          for (i = 0; i < app.queryApis.length; i++) {
+          for (var i = 0; i < app.queryApis.length; i++) {
             var api = app.queryApis[i]
             app.queryApiMap[api.name] = api
           }
           app.mutationApis = app.schemaMap['Mutation'].fields
-          for (i = 0; i < app.mutationApis.length; i++) {
+          for (var i = 0; i < app.mutationApis.length; i++) {
             var api = app.mutationApis[i]
             app.mutationApiMap[api.name] = api
           }
