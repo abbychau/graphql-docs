@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     parserSchemaType (type) {
-      var required = type.kind == 'NON_NULL'
+      var required = type.kind === 'NON_NULL'
       var isList = type.kind === 'LIST'
       var typeName = ''
 
@@ -103,7 +103,7 @@ export default {
         var schemaObj = schemaMap[argTypeName]
 
         var fields = schemaObj.inputFields
-        if (!fields || fields.length == 0) {
+        if (!fields || fields.length === 0) {
           fields = schemaObj.fields
         }
 
@@ -112,7 +112,7 @@ export default {
           type: typeName,
           desc: field.description,
           fields: fields,
-          _disableExpand: !fields || fields.length == 0
+          _disableExpand: !fields || fields.length === 0
         })
       }
     }

@@ -186,17 +186,18 @@ export default {
         .then(function (response) {
           var resp = response.data
           var schemaTypes = resp.data.__schema.types
-          for (var i = 0; i < schemaTypes.length; i++) {
+          var i = 0
+          for (i = 0; i < schemaTypes.length; i++) {
             var schemaType = schemaTypes[i]
             app.schemaMap[schemaType.name] = schemaType
           }
           app.queryApis = app.schemaMap['Query'].fields
-          for (var i = 0; i < app.queryApis.length; i++) {
+          for (i = 0; i < app.queryApis.length; i++) {
             var api = app.queryApis[i]
             app.queryApiMap[api.name] = api
           }
           app.mutationApis = app.schemaMap['Mutation'].fields
-          for (var i = 0; i < app.mutationApis.length; i++) {
+          for (i = 0; i < app.mutationApis.length; i++) {
             var api = app.mutationApis[i]
             app.mutationApiMap[api.name] = api
           }
